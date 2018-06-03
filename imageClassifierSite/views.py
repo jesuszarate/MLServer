@@ -21,11 +21,10 @@ def recSystem(request):
     return HttpResponse(html)
 
 def uploadPicture(request):
-    #return render(request, 'angular-2-template/index.html')
     return render(request, 'upload_picture.html')
 
 def jj(request):
-    d = {'jj': 'chu'}
+    d = {'jj': 'this is the value'}
     data = json.dumps(d)
     return HttpResponse(data, content_type='application/json')    
 
