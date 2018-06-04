@@ -46,7 +46,7 @@ def train_neural_network(x):
     optimizer = tf.train.AdamOptimizer().minimize(cost)# Stochastic gradient descent
 
     hm_epochs = 10
-'''
+
     with tf.Session() as sess:
         sess.run(tf.initialize_all_variables())
 
@@ -63,5 +63,5 @@ def train_neural_network(x):
         correct = tf.equal(tf.argmax(prediction, 1), tf.argmax(y, 1))
         accuracy = tf.reduce_mean(tf.cast(correct, 'float'))
         print('Accuracy:', accuracy.eval({x:mnist.test.images, y:mnist.test.labels}))
-'''
+
 train_neural_network(x)
