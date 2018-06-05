@@ -8,6 +8,7 @@ sys.path.append('..')
 import config
 from .Classifier.classify_image import classify
 from .RecommendationSystem.rec_sys import RecommendationSystem as rec_sys
+from .Utilitites import parse_ids
 
 class UploadFileForm(forms.Form):
     file = forms.FileField()
@@ -48,3 +49,18 @@ def upload_pic(request):
 
     else:
         return HttpResponse('<center><h1>Invalid request. It must be a post request</h1></center>')
+
+def load_ids(request):
+    return render(request, 'parse_ids.html')
+
+def get_ids(request):
+
+    print(request.GET['ids'])
+    ids = parse_ids.get_ids(request.GET['ids'])
+    
+
+    html = "<div>{0}</div>".format(ids)
+
+    return HttpResponse(html)
+
+
