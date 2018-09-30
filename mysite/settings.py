@@ -23,11 +23,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 SECRET_KEY = os.environ['SECRET_KEY']
 
-ALLOWED_HOSTS = ['image.jesuszarate.com', '127.0.0.1', '10.0.0.234', '192.168.0.47']
+ALLOWED_HOSTS = ['rocketleague.jesuszarate.com', '127.0.0.1', '10.0.0.234', '192.168.0.47']
 
 # Application definition
 

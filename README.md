@@ -33,7 +33,7 @@ How to run
  * Then run `python manage.py runserver`
  * At this point the website will be running on http://127.0.0.1:8000/upload_picture
   
-#### Deplyoing running on Heroku
+#### Deploying running on Heroku
   
     
 
