@@ -3,3 +3,6 @@ __pycache__/
 .vscode
 TF/MNIST_data/
 
+/rocketLeagueSite/Rankade/geckodriver.log
+/rocketLeagueSite/Rankade/ghostdriver.log
+/rocketLeagueSite/Rankade/users_original.json

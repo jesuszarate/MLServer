@@ -27,7 +27,7 @@ DEBUG = True
 
 SECRET_KEY = os.environ['SECRET_KEY']
 
-ALLOWED_HOSTS = ['image.jesuszarate.com', '127.0.0.1']
+ALLOWED_HOSTS = ['image.jesuszarate.com', '127.0.0.1', '10.0.0.234', '192.168.0.47']
 
 # Application definition
 
