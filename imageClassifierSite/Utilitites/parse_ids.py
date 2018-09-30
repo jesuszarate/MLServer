@@ -21,5 +21,5 @@ def get_ids(text):
     for id in ids:
         str += '\'{0}\', '.format(id)
 
-    return(str[:-2])
+    return(len(ids), str[:-2])
         
