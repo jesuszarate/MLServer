@@ -27,7 +27,7 @@ DEBUG = False
 
 SECRET_KEY = os.environ['SECRET_KEY']
 
-ALLOWED_HOSTS = ['rocketleague.jesuszarate.com', 'rocket-league-score.herokuapp.com', '127.0.0.1', '10.0.0.234', '192.168.0.47']
+ALLOWED_HOSTS = ['rl.jesuszarate.com', 'rocket-league-score.herokuapp.com', '127.0.0.1', '10.0.0.234', '192.168.0.47']
 
 # Application definition
 
