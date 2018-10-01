@@ -59,8 +59,12 @@ def slack_score(request):
         print('Recording scores')
 
         print(request.POST)
-        # try:
-        #     players, scores = rankade.read_match(request.POST["matches"])
+        try:
+            text = request.POST['text']
+            # players, scores = rankade.read_match(request.POST["matches"])
+            players, scores = rankade.read_match(text)
+            print(players)
+            print(scores)
         #
         #     r = rankade.Rankade(os.environ['username'], os.environ['token'])
         #
@@ -71,9 +75,9 @@ def slack_score(request):
         #
         #     data = json.dumps(d)
         #     return HttpResponse(data, content_type='application/json')
-        # except Exception as ex:
-        #     d = {'error': 'Unable to add scores: {0}'.format(ex)}
-        #     data = json.dumps(d)
+        except Exception as ex:
+            d = {'error': 'Unable to add scores: {0}'.format(ex)}
+            data = json.dumps(d)
         return HttpResponse(json.dumps({'Success': "nice!"}), content_type='application/json')
     else:
         d = {'error': 'must be a post request'}
