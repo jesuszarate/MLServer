@@ -1,4 +1,6 @@
 from django.shortcuts import render, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+
 import json
 import os
 import sys
@@ -51,6 +53,7 @@ def send_rankade_scores(request):
         data = json.dumps(d)
         return HttpResponse(data, content_type='application/json')
 
+@csrf_exempt
 def slack_score(request):
     if request.method == 'POST':
         print('Recording scores')
