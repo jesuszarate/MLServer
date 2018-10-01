@@ -74,7 +74,7 @@ def slack_score(request):
         # except Exception as ex:
         #     d = {'error': 'Unable to add scores: {0}'.format(ex)}
         #     data = json.dumps(d)
-        #     return HttpResponse(data, content_type='application/json')
+        return HttpResponse(json.dumps({'Success': "nice!"}), content_type='application/json')
     else:
         d = {'error': 'must be a post request'}
         data = json.dumps(d)
