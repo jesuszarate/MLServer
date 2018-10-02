@@ -24,15 +24,8 @@ class Rankade:
         self.save = True if env == 'prod' else False
 
         if env == 'prod':
-            # options = Options()
-            # options.add_argument("--headless")
-            # self.driver = webdriver.Chrome(options=options)
-
             chrome_options = Options()
             chrome_options.binary_location = os.environ["GOOGLE_CHROME_BIN"]
-            # chrome_options.add_argument('--disable-gpu')
-            # chrome_options.add_argument("--disable-dev-shm-usage")
-            # chrome_options.add_argument('--no-sandbox')
 
             chrome_options = Options()
             chrome_options.add_argument('--headless')

@@ -67,10 +67,14 @@ def slack_score(request):
             print(players)
             print(scores)
 
+            print("*"*25 + "_logging in_" + "*"*25)
             r = rankade.Rankade(os.environ['username'], os.environ['token'])
+            print("*"*25 + "_logged in_" + "*"*25)
 
+            print("*"*25 + "_adding_matches_" + "*"*25)
             r.add_matches(players, scores)
             r.close()
+            print("*"*25 + "_done adding matches_" + "*"*25)
 
             d = {'Success': '{0}{1}'.format(players, scores)}
 
