@@ -24,14 +24,17 @@ class Rankade:
         self.save = True if env == 'prod' else False
 
         if env == 'prod':
+            print("*"*25 + "_in prod_" + "*"*25)
             chrome_options = Options()
             chrome_options.binary_location = os.environ["GOOGLE_CHROME_BIN"]
+            chrome_driver = os.environ["CHROMEDRIVER_PATH"]
+            print("Google chrome environmnet: " + chrome_options.binary_location)
 
             chrome_options = Options()
             chrome_options.add_argument('--headless')
             chrome_options.add_argument('--no-sandbox')
             chrome_options.add_argument('--disable-dev-shm-usage')
-            self.driver = webdriver.Chrome(executable_path=os.environ["CHROMEDRIVER_PATH"], chrome_options=chrome_options)
+            self.driver = webdriver.Chrome(executable_path=chrome_driver, chrome_options=chrome_options)
 
         else:
             self.driver = webdriver.Chrome()
