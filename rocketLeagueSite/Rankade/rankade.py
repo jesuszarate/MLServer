@@ -13,6 +13,7 @@ class Rankade:
 
     def __init__(self, username, password, env='prod'):
         self.rankade = 'https://rankade.com'
+        self.users = 'rocketLeagueSite/Rankade/users.json'
         self.dashboard = self.rankade + '/#/group/WkMK9GYyb2o/DlLprOnOKM7'
         self.signin = self.rankade + '/signin/'
         self.save_button_xpath = '//*[@id="matchModal"]/div/div/div[3]/a[1]'
@@ -37,14 +38,12 @@ class Rankade:
             self.driver = webdriver.Chrome(executable_path=chrome_driver, chrome_options=chrome_options)
             self.driver.set_page_load_timeout(60)
 
-
-
         else:
             self.driver = webdriver.Chrome()
 
 
         self.login(username, password)
-        self.users = self.load_users('imageClassifierSite/Rankade/users.json')
+        self.users = self.load_users(self.users)
         print(self.users)
 
     def login(self, username, password):
