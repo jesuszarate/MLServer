@@ -1,5 +1,7 @@
 from django.shortcuts import render, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from threading import Thread
+import requests
 
 import json
 import os
@@ -53,12 +55,61 @@ def send_rankade_scores(request):
         data = json.dumps(d)
         return HttpResponse(data, content_type='application/json')
 
+
+
+def backgroundworker(players, scores, response_url):
+
+    try:
+        # text = request.POST['text']
+        # # players, scores = rankade.read_match(request.POST["matches"])
+        # players, scores = rankade.read_match(text)
+        # print(players)
+        # print(scores)
+
+        print("*"*25 + "_logging in_" + "*"*25)
+        r = rankade.Rankade(os.environ['username'], os.environ['token'])
+        print("*"*25 + "_logged in_" + "*"*25)
+
+        print("*"*25 + "_adding_matches_" + "*"*25)
+        r.add_matches(players, scores)
+        r.close()
+        print("*"*25 + "_done adding matches_" + "*"*25)
+
+        # d = {'Success': '{0}{1}'.format(players, scores)}
+
+        payload = {"text":"Successfully added matches",
+                   "username": "bot"}
+
+        requests.post(response_url,data=json.dumps(payload))
+
+        # data = json.dumps(d)
+        # return HttpResponse(data, content_type='application/json')
+    except Exception as ex:
+        d = {'error': 'Unable to add scores: {0}'.format(ex)}
+        data = json.dumps(d)
+        return HttpResponse(data, content_type='application/json')
+
+
+
+# def receptionist():
+#
+#     response_url = request.form.get("response_url")
+#
+#     somedata = {}
+#
+#     thr = Thread(target=backgroundworker, args=[somedata,response_url])
+#     thr.start()
+#
+#     return jsonify(message= "working on your request")
+
 @csrf_exempt
 def slack_score(request):
     if request.method == 'POST':
         print('Recording scores')
 
         print(request.POST)
+
+        response_url = request.POST['response_url']
 
         try:
             text = request.POST['text']
@@ -67,14 +118,17 @@ def slack_score(request):
             print(players)
             print(scores)
 
-            print("*"*25 + "_logging in_" + "*"*25)
-            r = rankade.Rankade(os.environ['username'], os.environ['token'])
-            print("*"*25 + "_logged in_" + "*"*25)
+            thr = Thread(target=backgroundworker, args=[players, scores, response_url])
+            thr.start()
 
-            print("*"*25 + "_adding_matches_" + "*"*25)
-            r.add_matches(players, scores)
-            r.close()
-            print("*"*25 + "_done adding matches_" + "*"*25)
+            # print("*"*25 + "_logging in_" + "*"*25)
+            # r = rankade.Rankade(os.environ['username'], os.environ['token'])
+            # print("*"*25 + "_logged in_" + "*"*25)
+            #
+            # print("*"*25 + "_adding_matches_" + "*"*25)
+            # r.add_matches(players, scores)
+            # r.close()
+            # print("*"*25 + "_done adding matches_" + "*"*25)
 
             d = {'Success': '{0}{1}'.format(players, scores)}
 
