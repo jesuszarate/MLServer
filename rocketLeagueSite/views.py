@@ -60,12 +60,6 @@ def send_rankade_scores(request):
 def backgroundworker(players, scores, response_url):
 
     try:
-        # text = request.POST['text']
-        # # players, scores = rankade.read_match(request.POST["matches"])
-        # players, scores = rankade.read_match(text)
-        # print(players)
-        # print(scores)
-
         print("*"*25 + "_logging in_" + "*"*25)
         r = rankade.Rankade(os.environ['username'], os.environ['token'])
         print("*"*25 + "_logged in_" + "*"*25)
@@ -75,32 +69,15 @@ def backgroundworker(players, scores, response_url):
         r.close()
         print("*"*25 + "_done adding matches_" + "*"*25)
 
-        # d = {'Success': '{0}{1}'.format(players, scores)}
-
         payload = {"text":"Successfully added matches",
                    "username": "bot"}
 
         requests.post(response_url,data=json.dumps(payload))
 
-        # data = json.dumps(d)
-        # return HttpResponse(data, content_type='application/json')
     except Exception as ex:
         d = {'error': 'Unable to add scores: {0}'.format(ex)}
         data = json.dumps(d)
         return HttpResponse(data, content_type='application/json')
-
-
-
-# def receptionist():
-#
-#     response_url = request.form.get("response_url")
-#
-#     somedata = {}
-#
-#     thr = Thread(target=backgroundworker, args=[somedata,response_url])
-#     thr.start()
-#
-#     return jsonify(message= "working on your request")
 
 @csrf_exempt
 def slack_score(request):
@@ -113,7 +90,6 @@ def slack_score(request):
 
         try:
             text = request.POST['text']
-            # players, scores = rankade.read_match(request.POST["matches"])
             players, scores = rankade.read_match(text)
             print(players)
             print(scores)
@@ -121,16 +97,7 @@ def slack_score(request):
             thr = Thread(target=backgroundworker, args=[players, scores, response_url])
             thr.start()
 
-            # print("*"*25 + "_logging in_" + "*"*25)
-            # r = rankade.Rankade(os.environ['username'], os.environ['token'])
-            # print("*"*25 + "_logged in_" + "*"*25)
-            #
-            # print("*"*25 + "_adding_matches_" + "*"*25)
-            # r.add_matches(players, scores)
-            # r.close()
-            # print("*"*25 + "_done adding matches_" + "*"*25)
-
-            d = {'Success': '{0}{1}'.format(players, scores)}
+            d = {'Adding the following matches': '{0}{1}'.format(players, scores)}
 
             data = json.dumps(d)
             return HttpResponse(data, content_type='application/json')
@@ -138,8 +105,6 @@ def slack_score(request):
             d = {'error': 'Unable to add scores: {0}'.format(ex)}
             data = json.dumps(d)
             return HttpResponse(data, content_type='application/json')
-
-        # return HttpResponse('Recording scores.', content_type='application/json')
     else:
         d = {'error': 'must be a post request'}
         data = json.dumps(d)

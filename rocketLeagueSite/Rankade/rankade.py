@@ -37,6 +37,7 @@ class Rankade:
             chrome_options.add_argument('--disable-dev-shm-usage')
             self.driver = webdriver.Chrome(executable_path=chrome_driver, chrome_options=chrome_options)
             self.driver.set_page_load_timeout(60)
+            print("*"*25 + "_finished prod_" + "*"*25)
 
         else:
             self.driver = webdriver.Chrome()
