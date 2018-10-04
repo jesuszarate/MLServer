@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from threading import Thread
 import requests
+import time
 
 import json
 import os
@@ -18,12 +19,25 @@ def index(request):
 def load_ids(request):
     return render(request, 'parse_ids.html')
 
+def caffeine(interval):
+    print("Just consumed some caffeine! Ahhhh!")
+    start = time.time()
+    time.clock()
+    elapsed = 0
+    while elapsed < interval:
+        elapsed = time.time() - start
+        print("loop cycle time: %f, seconds count: %02d" % (time.clock() , elapsed))
+        r = requests.get(url = "http://rl.jesuszarate.com/")
+        time.sleep(1)
+
+
 def get_ids(request):
     print(request.GET['ids'])
     num, ids = parse_ids.get_ids(request.GET['ids'])
 
     html = "<div>{0}</div><br><br><div>{1}</div>".format(ids, num)
 
+    caffeine(300)
     return HttpResponse(html)
 
 def record_rankade_score(request):
@@ -112,16 +126,3 @@ def slack_score(request):
         return HttpResponse(data, content_type='application/json')
 
 
-import time
-
-def stopwatch(seconds):
-    start = time.time()
-    time.clock()
-    elapsed = 0
-    while elapsed < seconds:
-        elapsed = time.time() - start
-        print("loop cycle time: %f, seconds count: %02d" % (time.clock() , elapsed))
-        r = requests.get(url = "rl.jesuszarate.com")
-        time.sleep(1)
-
-stopwatch(300)
