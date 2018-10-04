@@ -25,13 +25,13 @@ def caffeine(interval):
     start = time.time()
     time.clock()
     elapsed = 0
-    while True:
-        print("Sending get request to : {0}".format(url))
-        requests.get(url = url)
-
-        while elapsed < interval:
-            elapsed = time.time() - start
-            time.sleep(1)
+    # while True:
+    #     print("Sending get request to : {0}".format(url))
+    #     requests.get(url = url)
+    #
+    #     while elapsed < interval:
+    #         elapsed = time.time() - start
+    #         time.sleep(1)
 
 def get_ids(request):
 
