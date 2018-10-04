@@ -22,16 +22,12 @@ def load_ids(request):
 def caffeine(interval):
     print("Just consumed some caffeine! Ahhhh!")
     url = 'http://rl.jesuszarate.com/'
-    start = time.time()
     time.clock()
-    elapsed = 0
-    # while True:
-    #     print("Sending get request to : {0}".format(url))
-    #     requests.get(url = url)
-    #
-    #     while elapsed < interval:
-    #         elapsed = time.time() - start
-    #         time.sleep(1)
+
+    while True:
+        print("Sending get request to : {0}".format(url))
+        requests.get(url = url)
+        time.sleep(300)
 
 def get_ids(request):
 
@@ -41,6 +37,7 @@ def get_ids(request):
     # html = "<div>{0}</div><br><br><div>{1}</div>".format(ids, num)
 
     thr = Thread(target=caffeine, args=[300])
+    thr.daemon = True
     thr.start()
 
     return HttpResponse("<div>Woken up</div>")
