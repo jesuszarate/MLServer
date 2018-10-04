@@ -187,6 +187,18 @@ def read_match(fline):
 
     return players, scores
 
+def pretty_matches(players, scores):
+
+    if len(players) != 4:
+        return ""
+
+    string = ''
+    for i in range(len(scores)):
+        string += '{0},{1} ({2}) vs. ({3}) {4},{5}\n'.format(players[0], players[1], scores[i][0], scores[i][1], players[2], players[3])
+    return string
+
+
+
 def record_matches(r, match_list):
     for players, scores in match_list:
         try:

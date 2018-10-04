@@ -114,13 +114,15 @@ def slack_score(request):
             print(players)
             print(scores)
 
-            thr = Thread(target=backgroundworker, args=[players, scores, response_url])
-            thr.start()
+            # thr = Thread(target=backgroundworker, args=[players, scores, response_url])
+            # thr.start()
 
-            d = {'Adding the following matches': '{0}{1}'.format(players, scores)}
+            # d = {'Adding the following matches': '{0}{1}'.format(players, scores)}
 
-            data = json.dumps(d)
-            return HttpResponse(data, content_type='application/json')
+            data = text + '\n\nAdding the following matches:\n' + rankade.pretty_matches(players, scores)
+
+            # data = json.dumps(d)
+            return HttpResponse(data)
 
         except Exception as ex:
             d = {'error': 'Unable to add scores: {0}'.format(ex)}
