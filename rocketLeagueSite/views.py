@@ -19,24 +19,28 @@ def index(request):
 def load_ids(request):
     return render(request, 'parse_ids.html')
 
-def caffeine(interval):
+def caffeine(interval, sleep_start, sleep_end):
     print("Just consumed some caffeine! Ahhhh!")
     url = 'http://rl.jesuszarate.com/'
     time.clock()
 
     while True:
         print("Sending get request to : {0}".format(url))
-        requests.get(url = url)
-        time.sleep(300)
 
-def get_ids(request):
+        current_time = time.localtime()
+        if sleep_start <= current_time.tm_hour < sleep_end:
+            print("zzzzzzzzzzzzzz")
+            requests.get(url = url)
+        time.sleep(interval)
+
+def wake_up(request):
 
     # print(request.GET['ids'])
     # num, ids = parse_ids.get_ids(request.GET['ids'])
 
     # html = "<div>{0}</div><br><br><div>{1}</div>".format(ids, num)
 
-    thr = Thread(target=caffeine, args=[300])
+    thr = Thread(target=caffeine, args=[300, 0, 7])
     thr.daemon = True
     thr.start()
 
