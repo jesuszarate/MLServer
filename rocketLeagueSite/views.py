@@ -101,6 +101,7 @@ def slack_score(request):
 
             data = json.dumps(d)
             return HttpResponse(data, content_type='application/json')
+
         except Exception as ex:
             d = {'error': 'Unable to add scores: {0}'.format(ex)}
             data = json.dumps(d)
@@ -110,3 +111,17 @@ def slack_score(request):
         data = json.dumps(d)
         return HttpResponse(data, content_type='application/json')
 
+
+import time
+
+def stopwatch(seconds):
+    start = time.time()
+    time.clock()
+    elapsed = 0
+    while elapsed < seconds:
+        elapsed = time.time() - start
+        print("loop cycle time: %f, seconds count: %02d" % (time.clock() , elapsed))
+        r = requests.get(url = "rl.jesuszarate.com")
+        time.sleep(1)
+
+stopwatch(20)
