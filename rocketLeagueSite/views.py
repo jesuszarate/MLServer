@@ -19,6 +19,14 @@ def index(request):
 def load_ids(request):
     return render(request, 'parse_ids.html')
 
+def get_ids(request):
+    print(request.GET['ids'])
+    num, ids = parse_ids.get_ids(request.GET['ids'])
+
+    html = "<div>{0}</div><br><br><div>{1}</div>".format(ids, num)
+
+    return HttpResponse(html)
+
 def caffeine(interval, sleep_start, sleep_end):
     print("Just consumed some caffeine! Ahhhh!")
     url = 'http://rl.jesuszarate.com/'
@@ -36,12 +44,7 @@ def caffeine(interval, sleep_start, sleep_end):
 
 def wake_up(request):
 
-    # print(request.GET['ids'])
-    # num, ids = parse_ids.get_ids(request.GET['ids'])
-
-    # html = "<div>{0}</div><br><br><div>{1}</div>".format(ids, num)
-
-    thr = Thread(target=caffeine, args=[300, 0, 7])
+    thr = Thread(target=caffeine, args=[300, 6, 13])
     thr.daemon = True
     thr.start()
 
@@ -90,7 +93,7 @@ def backgroundworker(players, scores, response_url):
         r.close()
         print("*"*25 + "_done adding matches_" + "*"*25)
 
-        payload = {"text":"Successfully added matches",
+        payload = {"text":"Successfully added matches!",
                    "username": "bot"}
 
         requests.post(response_url,data=json.dumps(payload))
