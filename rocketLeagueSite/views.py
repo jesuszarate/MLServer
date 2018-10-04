@@ -32,13 +32,14 @@ def caffeine(interval):
 
 
 def get_ids(request):
-    print(request.GET['ids'])
-    num, ids = parse_ids.get_ids(request.GET['ids'])
 
-    html = "<div>{0}</div><br><br><div>{1}</div>".format(ids, num)
+    # print(request.GET['ids'])
+    # num, ids = parse_ids.get_ids(request.GET['ids'])
+
+    # html = "<div>{0}</div><br><br><div>{1}</div>".format(ids, num)
 
     caffeine(300)
-    return HttpResponse(html)
+    return HttpResponse("<div>Woken up</div>")
 
 def record_rankade_score(request):
     return render(request, 'rankade_scores.html')
