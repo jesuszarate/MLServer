@@ -124,4 +124,4 @@ def stopwatch(seconds):
         r = requests.get(url = "rl.jesuszarate.com")
         time.sleep(1)
 
-stopwatch(20)
+stopwatch(300)
