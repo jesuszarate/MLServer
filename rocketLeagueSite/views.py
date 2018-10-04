@@ -25,12 +25,12 @@ def caffeine(interval, sleep_start, sleep_end):
     time.clock()
 
     while True:
-        print("Sending get request to : {0}".format(url))
 
         current_time = time.localtime()
         if sleep_start <= current_time.tm_hour < sleep_end:
             print("zzzzzzzzzzzzzz")
         else:
+            print("Sending get request to : {0}".format(url))
             requests.get(url = url)
         time.sleep(interval)
 
@@ -113,8 +113,8 @@ def slack_score(request):
             text = request.POST['text']
             players, scores = rankade.read_match(text)
 
-            # thr = Thread(target=backgroundworker, args=[players, scores, response_url])
-            # thr.start()
+            thr = Thread(target=backgroundworker, args=[players, scores, response_url])
+            thr.start()
 
             data = text + '\n\nAdding the following matches:\n' + rankade.pretty_matches(players, scores)
 
