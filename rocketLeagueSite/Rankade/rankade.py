@@ -194,7 +194,7 @@ def pretty_matches(players, scores):
 
     string = ''
     for i in range(len(scores)):
-        string += '{0},{1} ({2}) vs. ({3}) {4},{5}\n'.format(players[0], players[1], scores[i][0], scores[i][1], players[2], players[3])
+        string += '{0}, {1} ({2}) vs. ({3}) {4}, {5}\n'.format(players[0], players[1], scores[i][0], scores[i][1], players[2], players[3])
     return string
 
 
