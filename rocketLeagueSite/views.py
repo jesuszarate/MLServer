@@ -21,15 +21,17 @@ def load_ids(request):
 
 def caffeine(interval):
     print("Just consumed some caffeine! Ahhhh!")
+    url = 'http://rl.jesuszarate.com/'
     start = time.time()
     time.clock()
     elapsed = 0
-    while elapsed < interval:
-        elapsed = time.time() - start
-        print("loop cycle time: %f, seconds count: %02d" % (time.clock() , elapsed))
-        r = requests.get(url = "http://rl.jesuszarate.com/")
-        time.sleep(1)
+    while True:
+        print("Sending get request to : {0}".format(url))
+        requests.get(url = url)
 
+        while elapsed < interval:
+            elapsed = time.time() - start
+            time.sleep(1)
 
 def get_ids(request):
 
@@ -38,7 +40,9 @@ def get_ids(request):
 
     # html = "<div>{0}</div><br><br><div>{1}</div>".format(ids, num)
 
-    caffeine(300)
+    thr = Thread(target=caffeine, args=[300])
+    thr.start()
+
     return HttpResponse("<div>Woken up</div>")
 
 def record_rankade_score(request):
