@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from threading import Thread
+import threading
 import requests
 import time
 
@@ -12,6 +13,8 @@ sys.path.append('..')
 
 from .Utilitites import parse_ids
 from .Rankade import rankade
+
+lock = threading.Lock()
 
 def index(request):
     return render(request, 'index.html')
@@ -35,7 +38,7 @@ def caffeine(interval, sleep_start, sleep_end):
     while True:
 
         current_time = time.localtime()
-        if sleep_start <= current_time.tm_hour < sleep_end:
+        if lock.locked() or sleep_start <= current_time.tm_hour < sleep_end:
             print("zzzzzzzzzzzzzz")
         else:
             print("Sending get request to : {0}".format(url))
@@ -44,7 +47,7 @@ def caffeine(interval, sleep_start, sleep_end):
 
 def wake_up(request):
 
-    thr = Thread(target=caffeine, args=[300, 6, 13])
+    thr = Thread(target=caffeine, args=[1800, 6, 13])
     thr.daemon = True
     thr.start()
 
@@ -99,9 +102,10 @@ def backgroundworker(players, scores, response_url):
         requests.post(response_url,data=json.dumps(payload))
 
     except Exception as ex:
-        d = {'error': 'Unable to add scores: {0}'.format(ex)}
+        d = 'Error: Unable to add scores: {0}'.format(ex)
         data = json.dumps(d)
-        return HttpResponse(data, content_type='application/json')
+        return HttpResponse(data)
+
 
 @csrf_exempt
 def slack_score(request):
@@ -112,7 +116,9 @@ def slack_score(request):
 
         response_url = request.POST['response_url']
 
+        lock.acquire()
         try:
+
             text = request.POST['text']
             players, scores = rankade.read_match(text)
 
@@ -127,6 +133,8 @@ def slack_score(request):
             d = {'error': 'Unable to add scores: {0}'.format(ex)}
             data = json.dumps(d)
             return HttpResponse(data, content_type='application/json')
+        finally:
+            lock.release()
     else:
         d = {'error': 'must be a post request'}
         data = json.dumps(d)
